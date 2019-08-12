@@ -36,7 +36,7 @@ services:
             test:
                 ipv4_address: 172.28.2.3
     laravel-postgres:
-        image: postgres:11.2-alpine
+        image: postgres:11-alpine
         volumes:
             - ./laravel-postgres:/var/lib/postgresql/data
         environment:
@@ -85,4 +85,4 @@ networks:
         ipam:
             driver: default
             config:
-                - subnet: 172.28.0.0/16
+                - subnet: 172.28.2.0/24
