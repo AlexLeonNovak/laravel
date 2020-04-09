@@ -1,44 +1,44 @@
 version: '3'
 
 services:
-    laravel-nginx:
+    app-nginx:
         build:
             context: ./docker/dev
             dockerfile: nginx.docker
         volumes:
-            - ./laravel:/app
+            - ./app:/app
         ports:
-            - "80:80"
+            - "8088:80"
         hostname: laravel
         domainname: laravel.loc
         networks:
             test:
                 ipv4_address: 172.28.2.10
 
-    laravel-php-fpm:
+    app-php-fpm:
         build:
             context: ./docker/dev
             dockerfile: php-fpm.docker
         volumes:
-            - ./laravel:/app
+            - ./app:/app
         networks:
             test:
                 ipv4_address: 172.28.2.2
 
-    laravel-php-cli:
+    app-php-cli:
         build:
             context: ./docker/dev
             dockerfile: php-cli.docker
         volumes:
-            - ./laravel:/app
+            - ./app:/app
             - composer:/root/.composer/cache
         networks:
             test:
                 ipv4_address: 172.28.2.3
-    laravel-postgres:
+    app-postgres:
         image: postgres:11-alpine
         volumes:
-            - ./laravel-postgres:/var/lib/postgresql/data
+            - ./app-postgres:/var/lib/postgresql/data
         environment:
             POSTGRES_USER: app
             POSTGRES_PASSWORD: secret
@@ -49,26 +49,26 @@ services:
             test:
                 ipv4_address: 172.28.2.4
 
-#    laravel-node:
-#        image: node:11-alpine
-#        volumes:
-#            - ./test-laravel:/app
-#        working_dir: /app
-#        networks:
-#            test:
-#                ipv4_address: 172.28.2.5
-#
-#    laravel-node-watch:
-#        image: node:11-alpine
-#        volumes:
-#            - ./test-laravel:/app
-#        working_dir: /app
-#        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
-#        networks:
-#            test:
-#                ipv4_address: 172.28.2.6
+    app-node:
+        image: node:11-alpine
+        volumes:
+            - ./app:/app
+        working_dir: /app
+        networks:
+            test:
+                ipv4_address: 172.28.2.5
 
-    laravel-mailer:
+    app-node-watch:
+        image: node:11-alpine
+        volumes:
+            - ./app:/app
+        working_dir: /app
+        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
+        networks:
+            test:
+                ipv4_address: 172.28.2.6
+
+    app-mailer:
         image: mailhog/mailhog
         ports:
             - "8025:8025"
@@ -77,7 +77,7 @@ services:
                 ipv4_address: 172.28.2.15
 
 volumes:
-    laravel-postgres:
+    app-postgres:
     composer:
 
 networks:
