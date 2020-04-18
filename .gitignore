@@ -1,6 +1,4 @@
 .idea/
-app-postgres
-friend-finder
-plan
-/plan/
-/app-postgres/
+/friend-finder/*
+/plan/*
+/app-postgres/*
