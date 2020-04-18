@@ -1,4 +1,4 @@
 .idea/
-/friend-finder/*
-/plan/*
-/app-postgres/*
+/friend-finder
+/plan
+/app-postgres
